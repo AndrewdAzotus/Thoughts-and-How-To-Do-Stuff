@@ -31,7 +31,7 @@ public void cmdDataScan()
     // e.g.
     foreach (string fileName in Directory.EnumerateFiles(pathToFiles))
     {
-        // read in file and do what-not
+        // read in file and do some stuff
         
         if (CancelScanning)
             break;
@@ -39,14 +39,14 @@ public void cmdDataScan()
     }
 }
 
-// code for the exit button, note async is only needed here
+// code for the exit button, note async is only needed here for the await, see other example for mvvm bound exit button
 public async void cmdExit()
 {
     if (!CanExecScanForNewTags)
     {
-        LblExitText = "Exiting...";  // replaces the exit btn text to let the user know the button press has been acknowledged
-        CanExecExit = false;         // disable the exit btn
-        if (Tsk != null)
+        ExitCmd.Text = "Exiting...";   // replaces the exit btn text to let the user know the button press has been acknowledged
+        ExitCmd.IsExecutable = false;  // disable the exit btn
+        if (Tsk != null) // or: (TaskScan.Status == TaskStatus.Running)
         {
             CancelScanning = true;
             await ScanTask;          // wait for background task to complete
